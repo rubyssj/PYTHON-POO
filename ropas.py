@@ -10,9 +10,9 @@ class Producto:
 
     def disminuir_stock(self, cantidad):
         if cantidad <= self.__cantidad:
-            self.__cantidad -= cantidad #cuenta los restantes
+            self.__cantidad -= cantidad
             print(f"Se compraron {cantidad} {self.__nombre}. Quedan {self.__cantidad} unidades de stock.")
-            return self.__precio * cantidad  # Retorna el total de la compra
+            return self.__precio * cantidad  # Retornar el total de la compra
         else:
             print(f"No hay suficiente stock de {self.__nombre}.")
             return 0
@@ -77,8 +77,8 @@ class Carrito:
         total = 0
         for nombre, cantidad, precio in self.productos_seleccionados:
             print(f"{cantidad} x {nombre}: Gs.{precio:.3f}")
-            total += precio
-        print(f"Total a Pagar: Gs.{total:.3f}")
+            total += precio #acumula
+        print(f"Total a Pagar: Gs. {total:.3f}")
 
 # Polimorfismo 
 class Tienda:
@@ -89,8 +89,8 @@ class Tienda:
     def procesar_compra(self):
         self.inventario.mostrar_inventario()
         while True:
-            nombre_prenda = input("¿Qué prenda desea comprar? (o escriba 'salir' para terminar): ")
-            if nombre_prenda.lower() == 'salir':
+            nombre_prenda = input("¿Qué prenda desea comprar? (o escriba 'salir' para terminar de comprar el producto): ")
+            if nombre_prenda.lower() == 'salir': #palabra clave
                 break
             prenda = self.inventario.buscar_prenda(nombre_prenda)
             
@@ -99,7 +99,7 @@ class Tienda:
                 self.carrito.agregar_producto(prenda, cantidad)
             else:
                 print("Prenda no encontrada en el inventario.")
-        self.carrito.mostrar_resumen()  # Mostrar resumen al finalizar la compra
+        self.carrito.mostrar_resumen()  # Muestra el resumen al finalizar la compra
         
 print("Bienvenidos")
 print("---------------------------")
@@ -109,9 +109,11 @@ falda = RopaMujer("Falda d/ Mujer", 100.000, 15, "S")
 blusa = RopaMujer("Blusa d/ Mujer", 100.000, 40, "M")
 chaqueta = RopaHombre("Chaqueta de cuero Hombre", 900.000, 20, "XL")
 vestido = RopaMujer("Vestido Zara", 45.00, 10, "M")
-champium_hombre = RopaHombre("Calzado hombre Converser One Star", 350.000, 25, "42")
-champium_mujer = RopaMujer("Calzado mujer Nike", 50.000, 20, "38")
+calzado_hombre = RopaHombre("Calzado hombre Converser One Star", 350.000, 25, "42")
+calzado_mujer = RopaMujer("Calzado mujer Nike", 50.000, 20, "38")
+botin_hombre = RopaHombre("Botin de futbol adidas x messi" , 300.000, 10, "40")
 
+#en este apartado podas agregar o sacar las ropas o accesorios que desees vender o tener
 inventario = Inventario()
 inventario.agregar_prenda(camisa)
 inventario.agregar_prenda(pantalon)
@@ -119,8 +121,9 @@ inventario.agregar_prenda(falda)
 inventario.agregar_prenda(blusa)
 inventario.agregar_prenda(chaqueta)
 inventario.agregar_prenda(vestido)
-inventario.agregar_prenda(champium_hombre)
-inventario.agregar_prenda(champium_mujer)
+inventario.agregar_prenda(calzado_hombre)
+inventario.agregar_prenda(calzado_mujer)
+inventario.agregar_prenda(botin_hombre)
 
 tienda = Tienda(inventario)
 tienda.procesar_compra()
