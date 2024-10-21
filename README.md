@@ -1,7 +1,7 @@
 # Programa de sistema de compra de ropas (deposito)
 
 ## Descripción
-Este programa simula un sistema de compra de ropa, permitiendo a los usuarios seleccionar productos y procesar compras utilizando Programación Orientada a Objetos (POO).
+El proposito de este programa es basicamente la implementacion de los 4 pilares de POO en python y utilizamos un sistema de compra de articulos de compras de ropas, calzados, etc. , permitiendo a los usuarios seleccionar productos y procesar compras utilizando Programación Orientada a Objetos (POO).
 
 ## Clases
 - **Prenda**: Clase base que representa un producto general.
