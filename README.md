@@ -12,11 +12,11 @@ El proposito de este programa es basicamente la implementacion de los 4 pilares 
 ## Características
 - **Encapsulamiento**: Los atributos de las clases están encapsulados.
 - **Herencia**: RopaHombre y RopaMujer heredan de Prenda.
-- **Polimorfismo**: Método `mostrar_info` sobrescrito en las clases derivadas.
+- **Polimorfismo**: Método mostrar_info sobrescrito en las clases derivadas.
 - **Abstracción**: Se ocultan detalles internos del proceso de compra.
 
 ## Cómo Ejecutar
 1. Asegúrate de tener Python instalado en tu sistema.
-2. Clona este repositorio o descarga el archivo `ropas.py`.
+2. Clona este repositorio o descarga el archivo ropas.py.
 3. Ejecuta el siguiente comando en la terminal:
 4.    python ropas.py
