@@ -1,19 +1,21 @@
 # Encapsulamiento
-class Prenda:
+class Producto:
     def __init__(self, nombre, precio, cantidad):
         self.__nombre = nombre    
         self.__precio = precio     
         self.__cantidad = cantidad  
 
     def mostrar_info(self):
-        print(f"Nombre: {self.__nombre}, Precio: {self.__precio:.3f}, Stock: {self.__cantidad}")
+        print(f"Nombre: {self.__nombre}, Precio: Gs.{self.__precio:.3f}, Stock: {self.__cantidad}")
 
     def disminuir_stock(self, cantidad):
         if cantidad <= self.__cantidad:
-            self.__cantidad -= cantidad
-            print(f"Se compraron {cantidad} {self.__nombre}. Quedan {self.__cantidad}" "unidades de stock ")
+            self.__cantidad -= cantidad #cuenta los restantes
+            print(f"Se compraron {cantidad} {self.__nombre}. Quedan {self.__cantidad} unidades de stock.")
+            return self.__precio * cantidad  # Retorna el total de la compra
         else:
             print(f"No hay suficiente stock de {self.__nombre}.")
+            return 0
 
     def get_precio(self):
         return self.__precio
@@ -22,7 +24,7 @@ class Prenda:
         return self.__nombre
 
 # Herencia
-class RopaHombre(Prenda):
+class RopaHombre(Producto):
     def __init__(self, nombre, precio, cantidad, tamaño):
         super().__init__(nombre, precio, cantidad)
         self.tamaño = tamaño
@@ -31,7 +33,7 @@ class RopaHombre(Prenda):
         super().mostrar_info()
         print(f"Talla: {self.tamaño}")
 
-class RopaMujer(Prenda):
+class RopaMujer(Producto):
     def __init__(self, nombre, precio, cantidad, tamaño):
         super().__init__(nombre, precio, cantidad)
         self.tamaño = tamaño
@@ -43,7 +45,7 @@ class RopaMujer(Prenda):
 # Abstracción
 class Inventario:
     def __init__(self):
-        self.prendas = []  #guarda las prendas de la tienda
+        self.prendas = []  # Guarda las prendas de la tienda
 
     def agregar_prenda(self, prenda):
         self.prendas.append(prenda)
@@ -60,24 +62,46 @@ class Inventario:
                 return prenda
         return None
 
+# creamos la clase carrito
+class Carrito:
+    def __init__(self):
+        self.productos_seleccionados = []
+
+    def agregar_producto(self, prenda, cantidad):
+        total_precio = prenda.disminuir_stock(cantidad)
+        if total_precio > 0:  # Solo agregar si la compra fue exitosa
+            self.productos_seleccionados.append((prenda.get_nombre(), cantidad, total_precio))
+
+    def mostrar_resumen(self):
+        print("Resumen de Compra:")
+        total = 0
+        for nombre, cantidad, precio in self.productos_seleccionados:
+            print(f"{cantidad} x {nombre}: Gs.{precio:.3f}")
+            total += precio
+        print(f"Total a Pagar: Gs.{total:.3f}")
+
 # Polimorfismo 
 class Tienda:
     def __init__(self, inventario):
         self.inventario = inventario
+        self.carrito = Carrito()  #carrito de compras
 
     def procesar_compra(self):
         self.inventario.mostrar_inventario()
-        nombre_prenda = input("¿Qué prenda desea comprar?: ")
-        prenda = self.inventario.buscar_prenda(nombre_prenda)
+        while True:
+            nombre_prenda = input("¿Qué prenda desea comprar? (o escriba 'salir' para terminar): ")
+            if nombre_prenda.lower() == 'salir':
+                break
+            prenda = self.inventario.buscar_prenda(nombre_prenda)
+            
+            if prenda:
+                cantidad = int(input(f"¿Cuántas {nombre_prenda} desea comprar?: "))
+                self.carrito.agregar_producto(prenda, cantidad)
+            else:
+                print("Prenda no encontrada en el inventario.")
+        self.carrito.mostrar_resumen()  # Mostrar resumen al finalizar la compra
         
-        if prenda:
-            cantidad = int(input(f"¿Cuántas {nombre_prenda} desea comprar?: "))
-            prenda.disminuir_stock(cantidad)
-        else:
-            print("Prenda no encontrada en el inventario.")
-
-#indumentaria amistyles
-print( " bienvenidos" )
+print("Bienvenidos")
 print("---------------------------")
 camisa = RopaHombre("Remera hombre", 250.000, 50, "M")
 pantalon = RopaHombre("Pantalón de Hombre todo por 20", 20.000, 30, "L")
@@ -85,8 +109,8 @@ falda = RopaMujer("Falda d/ Mujer", 100.000, 15, "S")
 blusa = RopaMujer("Blusa d/ Mujer", 100.000, 40, "M")
 chaqueta = RopaHombre("Chaqueta de cuero Hombre", 900.000, 20, "XL")
 vestido = RopaMujer("Vestido Zara", 45.00, 10, "M")
-champium_hombre = RopaHombre("calzado hombre converser one star", 350.000, 25, "42")
-champium_mujer = RopaMujer("calzado mujer nike", 50.000, 20, "38")
+champium_hombre = RopaHombre("Calzado hombre Converser One Star", 350.000, 25, "42")
+champium_mujer = RopaMujer("Calzado mujer Nike", 50.000, 20, "38")
 
 inventario = Inventario()
 inventario.agregar_prenda(camisa)
